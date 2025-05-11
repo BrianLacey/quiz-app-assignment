@@ -1,5 +1,5 @@
 const QuizMaker = () => {
-  return <>Hello Quiz!</>;
+  return <>Hello Quiz Maker!</>;
 };
 
 export default QuizMaker;

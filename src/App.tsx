@@ -2,7 +2,6 @@ import {Link} from "react-router";
 
 const App = () => {
   return (
-    <div className="h-screen bg-orange-300">
       <div className="flex flex-col gap-y-16 pt-48 text-4xl text-yellow-950">
         <div className="flex justify-center">Welcome to Your Quiz Maker!</div>
         <div className="flex flex-col gap-y-4">
@@ -18,7 +17,6 @@ const App = () => {
           </Link>
         </div>
       </div>
-    </div>
   );
 };
 
