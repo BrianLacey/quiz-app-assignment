@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 import contentServices from "../services/contentService";
+import categoryFromIds from "../helpers/categoryFromId";
 
 const contentControllers = {
   readByParams: async (req: Request, res: Response) => {
-    console.log(req.query);
+    const { query } = req;
     try {
-      const response = await contentServices.readByParams();
-      res.json(response);
+      const data = await categoryFromIds(query);
+      // console.log(name);
+      // const response = await contentServices.readByParams();
+      // res.json(response);
     } catch (e) {
       console.log(e);
       res.json(e);

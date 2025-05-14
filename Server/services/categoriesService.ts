@@ -13,6 +13,16 @@ const categoriesServices = {
         }
       );
   },
+
+  // readById: (id: number) => {
+  //   return db()
+  //     .collection("categories")
+  //     .findOne(
+  //       {
+  //         "trivia_categories.id": id,
+  //       }
+  //     );
+  // },
 };
 
 export default categoriesServices;
