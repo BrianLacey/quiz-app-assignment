@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import categoryServices from "../services/categoryService";
+import categoriesServices from "../services/categoriesService";
 
-const categoryControllers = {
+const categoriesControllers = {
   readAll: async (req: Request, res: Response) => {
     try {
-      const response = await categoryServices.readAll();
+      const response = await categoriesServices.readAll();
       res.json(response);
     } catch (e) {
       console.log(e);
@@ -13,4 +13,4 @@ const categoryControllers = {
   },
 };
 
-export default categoryControllers;
+export default categoriesControllers;
