@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import {db, connectDb} from "./db";
+import router from "./routes";
 const app = express();
 const port = 3001;
 const corsOptions = {
@@ -10,12 +11,7 @@ const corsOptions = {
 connectDb();
 
 app.use(cors(corsOptions));
-
-app.get("/api", async (req: Request, res: Response) => {
-  const data = await db.collection("test").find().toArray();
-  console.log(data[0].subject);
-  res.json({ greeting: "Hello API!", subject: data[0].subject });
-});
+app.use("/api", router);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);

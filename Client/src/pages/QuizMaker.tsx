@@ -13,7 +13,7 @@ const QuizMaker = () => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api", {
+      const response = await fetch("http://localhost:3001/api/categories", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -33,7 +33,7 @@ const QuizMaker = () => {
       {data && (
         <>
           <div>Greeting: {data.greeting}</div>
-          <div>Subject: {data.subject}</div>
+          {/* <div>Subject: {data.subject}</div> */}
         </>
       )}
     </>
