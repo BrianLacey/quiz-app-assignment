@@ -3,6 +3,7 @@ import contentServices from "../services/contentService";
 
 const contentControllers = {
   readByParams: async (req: Request, res: Response) => {
+    console.log(req.query);
     try {
       const response = await contentServices.readByParams();
       res.json(response);

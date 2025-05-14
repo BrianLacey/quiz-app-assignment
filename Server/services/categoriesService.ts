@@ -1,6 +1,6 @@
 import { db } from "../db";
 
-const categoryServices = {
+const categoriesServices = {
   readAll: () => {
     return db()
       .collection("categories")
@@ -15,4 +15,4 @@ const categoryServices = {
   },
 };
 
-export default categoryServices;
+export default categoriesServices;
