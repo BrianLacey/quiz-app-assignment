@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router";
-import { addCategories } from "../slices/categoriesSlice";
 import { changeLoading } from "../slices/loadingSlice";
+import { addCategories } from "../slices/categoriesSlice";
+import { addQuiz } from "../slices/quizSlice";
 import { fetchCategories } from "../services.ts/categoriesServices";
 import { fetchContent } from "../services.ts/contentServices";
 import {
@@ -31,12 +32,12 @@ const QuizMaker = () => {
   const getCategories = async () => {
     const categories: ICategory[] = await fetchCategories();
     dispatch(addCategories(categories));
-    dispatch(changeLoading(false));
   };
 
   useEffect(() => {
     getCategories();
-  }, []);
+    if (categories.length > 0) dispatch(changeLoading(false));
+  }, [categories]);
 
   const handleSelectedCategory = (id: number) => {
     const selection = categories.findIndex((category) => category.id === id);
@@ -53,10 +54,11 @@ const QuizMaker = () => {
   ) => difficulty[selected].name;
 
   const submitPrefs = async () => {
+    dispatch(changeLoading(true));
     const convertedCategory = convertCategory(selectedCategory);
     const convertedDifficulty = convertDifficulty(selectedDifficulty);
-    await fetchContent(convertedCategory, convertedDifficulty);
-    dispatch(changeLoading(true));
+    const quiz = await fetchContent(convertedCategory, convertedDifficulty);
+    await dispatch(addQuiz(quiz));
   };
 
   return (
@@ -64,8 +66,8 @@ const QuizMaker = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="flex flex-col gap-y-16 pt-48 text-4xl text-yellow-950">
-          <div className="flex justify-center">Hello Quiz Maker!</div>
+        <div className="flex flex-col gap-y-16 pt-48 text-yellow-950">
+          <div className="flex justify-center text-4xl font-bold">Quiz Maker</div>
           <div className="flex justify-center gap-x-8">
             <div className="text-lg">
               <CompleteListbox
@@ -83,7 +85,7 @@ const QuizMaker = () => {
                 list={difficulty}
               />
             </div>
-            <div className="pt-0.5">
+            <div className="pt-4">
               <Link
                 className="bg-yellow-950 text-white text-lg p-4.5 rounded-xl hover:bg-slate-900 active:p-3 active:mx-[9px] active:mt-1 active:text-base"
                 to="/take-quiz"
