@@ -1,15 +1,25 @@
 import { Request, Response } from "express";
 import contentServices from "../services/contentService";
 import categoryFromIds from "../helpers/categoryFromId";
+import hideAnswers from "../helpers/hideAnswers";
+import { IQuizDoc } from "../models";
 
 const contentControllers = {
   readByParams: async (req: Request, res: Response) => {
-    const { query } = req;
+    const { category, difficulty, amount } = req.query as {
+      category: string;
+      difficulty: string;
+      amount: string;
+    };
     try {
-      const data = await categoryFromIds(query);
-      // console.log(name);
-      // const response = await contentServices.readByParams();
-      // res.json(response);
+      const name = await categoryFromIds(category);
+      const data = await contentServices.readByParams(
+        name,
+        difficulty,
+        parseInt(amount)
+      );
+      const hiddenAnswers = hideAnswers(data as IQuizDoc[]);
+      res.json(hiddenAnswers);
     } catch (e) {
       console.log(e);
       res.json(e);

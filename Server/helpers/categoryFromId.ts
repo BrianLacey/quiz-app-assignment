@@ -1,17 +1,10 @@
 import categoriesService from "../services/categoriesService";
 
-const categoryFromIds = async (params: any) => {
-  const { category, difficulty, amount } = params;
-  console.log(category, difficulty, amount);
+const categoryFromIds = async (category: string) => {
   try {
-    const doc = await categoriesService.readAll();
-    const data =
-      doc &&
-      doc.trivia_categories.find(
-        (_category: any) => _category.id.toString() === category
-      );
+    const [data] = await categoriesService.readById(parseInt(category));
     const { name } = data;
-    // call new function that will query content by above params
+    return name;
   } catch (e) {
     console.log(e);
   }
