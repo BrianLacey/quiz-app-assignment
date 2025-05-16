@@ -7,7 +7,7 @@ const categoriesSlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
-    addCategories: (state, action) => [...action.payload.trivia_categories],
+    addCategories: (state, action) => [...action.payload],
     removeCategories: (state, action) => {},
   },
 });

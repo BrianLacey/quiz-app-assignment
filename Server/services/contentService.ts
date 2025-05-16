@@ -13,11 +13,35 @@ const contentServices = {
           },
         },
         { $replaceRoot: { newRoot: "$results" } },
+        {
+          $project: {
+            correct_answer: true,
+            incorrect_answers: true,
+            question: true,
+          },
+        },
       ])
       .limit(amount)
       .toArray();
   },
-  postScore: () => {},
+
+  readByQ: (question: string) => {
+    return db()
+      .collection("content")
+      .aggregate([
+        {
+          $unwind: { path: "$results" },
+        },
+        {
+          $match: {
+            "results.question": question,
+          },
+        },
+        { $replaceRoot: { newRoot: "$results" } },
+        { $project: { correct_answer: true } },
+      ])
+      .toArray();
+  },
 };
 
 export default contentServices;

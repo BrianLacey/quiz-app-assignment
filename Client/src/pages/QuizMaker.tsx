@@ -36,6 +36,9 @@ const QuizMaker = () => {
 
   useEffect(() => {
     getCategories();
+  }, []);
+
+  useEffect(() => {
     if (categories.length > 0) dispatch(changeLoading(false));
   }, [categories]);
 
