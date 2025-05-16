@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
-import {db, connectDb} from "./db";
+import { connectDb } from "./db";
 import router from "./routes";
 const app = express();
 const port = 3001;
@@ -10,6 +10,7 @@ const corsOptions = {
 
 connectDb();
 
+app.use(express.json());
 app.use(cors(corsOptions));
 app.use("/api", router);
 

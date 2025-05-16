@@ -4,14 +4,10 @@ const categoriesServices = {
   readAll: () => {
     return db()
       .collection("categories")
-      .findOne(
-        {
-          trivia_categories: { $exists: true },
-        },
-        {
-          projection: { _id: 0 },
-        }
-      );
+      .aggregate([
+        { $unwind: { path: "$trivia_categories" } },
+        { $replaceRoot: { newRoot: "$trivia_categories" } },
+      ]).toArray();
   },
 
   readById: (id: number) => {

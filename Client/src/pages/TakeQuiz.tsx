@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { changeLoading } from "../slices/loadingSlice";
 import Loading from "../components/Loading";
 import RenderQuestion from "../components/RenderQuestion";
+import { submitAnswers } from "../services.ts/contentServices";
 import { IState, ILoading, IQuiz, ISelected } from "../models";
 
 const TakeQuiz = () => {
@@ -24,9 +25,9 @@ const TakeQuiz = () => {
     }
   }, [selected.length]);
 
-  const submitAnswers = () => {
+  const submit = async() => {
     dispatch(changeLoading(true));
-    // Send selected array to service at score API.
+    await submitAnswers(selected);
   };
 
   return (
@@ -51,7 +52,7 @@ const TakeQuiz = () => {
               <Link
                 className="bg-yellow-950 text-white text-lg p-4.5 rounded-xl hover:bg-slate-900 active:p-3 active:mx-[9px] active:mt-1 active:text-base"
                 to="/results"
-                onClick={submitAnswers}
+                onClick={submit}
               >
                 Submit
               </Link>

@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import contentServices from "../services/contentService";
 import categoryFromIds from "../helpers/categoryFromId";
 import hideAnswers from "../helpers/hideAnswers";
-import { IQuizDoc } from "../models";
+import retrieveAnswers from "../helpers/retrieveAnswers";
+import calcScore from "../helpers/calcScore";
+import { IQuizDoc, ISelected, IWithCorrect } from "../models";
 
 const contentControllers = {
   readByParams: async (req: Request, res: Response) => {
@@ -25,10 +27,13 @@ const contentControllers = {
       res.json(e);
     }
   },
+
   postScore: async (req: Request, res: Response) => {
+    const { body }: { body: ISelected[] } = req;
     try {
-      const response = await contentServices.postScore();
-      res.json(response);
+      const withCorrect = await retrieveAnswers(body);
+      const withScore = calcScore(withCorrect as IWithCorrect[]);
+      res.json(withScore);
     } catch (e) {
       console.log(e);
       res.json(e);
