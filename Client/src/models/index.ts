@@ -1,6 +1,8 @@
 export interface IState {
   categories: ICategory[];
   loading: ILoading;
+  quiz: IQuiz[];
+  selected: ISelected[];
 }
 
 export interface ICategory {
@@ -20,3 +22,16 @@ export interface ILoading {
 export type ISelectedCategory = number;
 
 export type ISelectedDifficulty = number;
+
+export interface IQuiz {
+  category: string;
+  difficulty: string;
+  question: string;
+  type: string;
+  allAnswers: string[];
+}
+
+export interface ISelected {
+  question: string;
+  answer: string;
+}
