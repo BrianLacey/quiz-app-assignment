@@ -7,7 +7,6 @@ const selectedSlice = createSlice({
   name: "selected",
   initialState,
   reducers: {
-    addSelected: (state, action) => [...action.payload],
     updateSelected: (state, action) => {
       const { payload } = action;
       const curState = current(state);
@@ -26,9 +25,9 @@ const selectedSlice = createSlice({
         })
       }
     },
-    removeSelected: (state, action) => {},
+    resetSelected: (state) => [],
   },
 });
 
-export const { addSelected, updateSelected, removeSelected } = selectedSlice.actions;
+export const { updateSelected, resetSelected } = selectedSlice.actions;
 export default selectedSlice.reducer;

@@ -8,9 +8,9 @@ const quizSlice = createSlice({
   initialState,
   reducers: {
     addQuiz: (state, action) => [...action.payload],
-    removeQuiz: (state, action) => {},
+    resetQuiz: (state) => [],
   },
 });
 
-export const { addQuiz, removeQuiz } = quizSlice.actions;
+export const { addQuiz, resetQuiz } = quizSlice.actions;
 export default quizSlice.reducer;
