@@ -8,9 +8,9 @@ const resultsSlice = createSlice({
   initialState,
   reducers: {
     addResults: (state, action) => [...action.payload],
-    removeResults: (state, action) => {},
+    resetResults: (state) => [],
   },
 });
 
-export const { addResults, removeResults } = resultsSlice.actions;
+export const { addResults, resetResults } = resultsSlice.actions;
 export default resultsSlice.reducer;
