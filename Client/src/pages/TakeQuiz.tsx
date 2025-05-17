@@ -7,7 +7,7 @@ import { addResults } from "../slices/resultsSlice";
 import Loading from "../components/Loading";
 import RenderQuestion from "../components/RenderQuestion";
 import { submitAnswers } from "../services.ts/contentServices";
-import { IState, ILoading, IQuiz, ISelected, IResults } from "../models";
+import { IState, ILoading, IQuiz, ISelected } from "../models";
 
 const TakeQuiz = () => {
   const dispatch = useDispatch();
