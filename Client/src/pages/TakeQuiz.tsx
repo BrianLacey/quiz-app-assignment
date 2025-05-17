@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@headlessui/react";
 import { Link } from "react-router";
 import { changeLoading } from "../slices/loadingSlice";
+import { addResults } from "../slices/resultsSlice";
 import Loading from "../components/Loading";
 import RenderQuestion from "../components/RenderQuestion";
 import { submitAnswers } from "../services.ts/contentServices";
-import { IState, ILoading, IQuiz, ISelected } from "../models";
+import { IState, ILoading, IQuiz, ISelected, IResults } from "../models";
 
 const TakeQuiz = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,9 @@ const TakeQuiz = () => {
     }
   }, [selected.length]);
 
-  const submit = async() => {
+  const submit = async () => {
     dispatch(changeLoading(true));
-    await submitAnswers(selected);
+    dispatch(addResults(await submitAnswers(selected)));
   };
 
   return (

@@ -3,6 +3,7 @@ export interface IState {
   loading: ILoading;
   quiz: IQuiz[];
   selected: ISelected[];
+  results: (IResults | IScore)[];
 }
 
 export interface ICategory {
@@ -34,4 +35,14 @@ export interface IQuiz {
 export interface ISelected {
   question: string;
   answer: string;
+}
+
+export interface IResults {
+  question: string;
+  answer: string;
+  correct_answer: string;
+}
+
+export interface IScore {
+  score: string;
 }
