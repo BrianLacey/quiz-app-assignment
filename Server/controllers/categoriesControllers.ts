@@ -3,13 +3,14 @@ import categoriesServices from "../services/categoriesService";
 
 const categoriesControllers = {
   readAll: async (req: Request, res: Response) => {
-    try {
+    // try {
+      throw new Error("Testing error response");
+      // MAKE ERROR HANDLER MIDDLEWARE TO SIMPLIFY CODES AND MESSAGES
       const response = await categoriesServices.readAll();
       res.json(response);
-    } catch (e) {
-      console.log(e);
-      res.json(e);
-    }
+    // } catch (e) {
+      res.json(response);
+    // }
   },
 };
 
