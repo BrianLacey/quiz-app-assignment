@@ -1,9 +1,14 @@
 import { Request, Response, NextFunction } from "express";
+import { IError } from "../models";
 
-const errorHandler = (err, req: Request, res: Response, next: NextFunction) => {
-    console.log(err);
-    console.log(err.status);
-    console.log(err.message);
-    res.status(err.status || 400).json({ message: err.message });
-}
+const errorHandler = (
+  error: IError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res
+    .status(error.status || 500)
+    .json({ message: error.message || "An error occurred." });
+};
 export default errorHandler;

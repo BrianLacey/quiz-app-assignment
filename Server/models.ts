@@ -17,3 +17,7 @@ export interface IWithCorrect {
   answer: string;
   correct_answer: string;
 }
+
+export interface IError extends Error {
+  status?: number;
+}
