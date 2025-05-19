@@ -8,7 +8,7 @@ const quizSlice = createSlice({
   initialState,
   reducers: {
     addQuiz: (state, action) => [...action.payload],
-    resetQuiz: (state) => [],
+    resetQuiz: (state) => initialState,
   },
 });
 

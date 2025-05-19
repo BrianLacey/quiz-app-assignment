@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router";
+import { useNavigate } from "react-router";
+import { Button } from "@headlessui/react";
 import { changeLoading } from "../slices/loadingSlice";
 import { addCategories } from "../slices/categoriesSlice";
+import { resetError, updateError } from "../slices/errorSlice";
 import { addQuiz } from "../slices/quizSlice";
 import { fetchCategories } from "../services.ts/categoriesServices";
 import { fetchContent } from "../services.ts/contentServices";
@@ -16,10 +18,13 @@ import {
 } from "../models";
 import Loading from "../components/Loading";
 import CompleteListbox from "../components/CompleteListbox";
+import Alert from "../components/Alert";
+import NotFound from "./NotFound";
 import { difficulty } from "../constants";
 
 const QuizMaker = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const categories: ICategory[] = useSelector(
     (state: IState) => state.categories
   );
@@ -30,17 +35,20 @@ const QuizMaker = () => {
     useState<ISelectedDifficulty>(0);
 
   const getCategories = async () => {
-    const categories: ICategory[] = await fetchCategories();
-    dispatch(addCategories(categories));
+    try {
+      const categories: ICategory[] = await fetchCategories();
+      if (categories.length > 0) {
+        dispatch(addCategories(categories));
+      }
+    } catch (error) {
+      dispatch(updateError({ isOpen: true, message: error.message }));
+    }
+    dispatch(changeLoading(false));
   };
 
   useEffect(() => {
     getCategories();
   }, []);
-
-  useEffect(() => {
-    if (categories.length > 0) dispatch(changeLoading(false));
-  }, [categories]);
 
   const handleSelectedCategory = (id: number) => {
     const selection = categories.findIndex((category) => category.id === id);
@@ -56,49 +64,66 @@ const QuizMaker = () => {
     selected
   ) => difficulty[selected].name;
 
+  const closeAlert = () => {
+    dispatch(resetError());
+  };
+
   const submitPrefs = async () => {
     dispatch(changeLoading(true));
     const convertedCategory = convertCategory(selectedCategory);
     const convertedDifficulty = convertDifficulty(selectedDifficulty);
-    const quiz = await fetchContent(convertedCategory, convertedDifficulty);
-    await dispatch(addQuiz(quiz));
+    try {
+      const quiz = await fetchContent(convertedCategory, convertedDifficulty);
+      dispatch(addQuiz(quiz));
+      navigate("/take-quiz");
+    } catch (error) {
+      dispatch(changeLoading(false));
+      dispatch(updateError({ isOpen: true, message: error.message }));
+    }
   };
 
   return (
     <>
       {loading ? (
         <Loading />
-      ) : (
-        <div className="flex flex-col gap-y-16 pt-48 text-yellow-950">
-          <div className="flex justify-center text-4xl font-bold">Quiz Maker</div>
-          <div className="flex justify-center gap-x-8">
-            <div className="text-lg">
-              <CompleteListbox
-                value={selectedCategory}
-                onChange={handleSelectedCategory}
-                selected={categories[selectedCategory].name}
-                list={categories}
-              />
+      ) : categories.length > 0 ? (
+        <>
+          <Alert onClose={closeAlert} />
+          <div className="flex flex-col gap-y-16 pt-48 text-yellow-950">
+            <div className="flex justify-center text-4xl font-bold">
+              Quiz Maker
             </div>
-            <div className="text-lg">
-              <CompleteListbox
-                value={selectedDifficulty}
-                onChange={handleSelectedDifficulty}
-                selected={difficulty[selectedDifficulty].name}
-                list={difficulty}
-              />
-            </div>
-            <div className="pt-4">
-              <Link
-                className="bg-yellow-950 text-white text-lg p-4.5 rounded-xl hover:bg-slate-900 active:p-3 active:mx-[9px] active:mt-1 active:text-base"
-                to="/take-quiz"
+            <div className="flex justify-center gap-x-8">
+              <div className="text-lg">
+                <CompleteListbox
+                  value={selectedCategory}
+                  onChange={handleSelectedCategory}
+                  selected={categories[selectedCategory].name}
+                  list={categories}
+                />
+              </div>
+              <div className="text-lg">
+                <CompleteListbox
+                  value={selectedDifficulty}
+                  onChange={handleSelectedDifficulty}
+                  selected={difficulty[selectedDifficulty].name}
+                  list={difficulty}
+                />
+              </div>
+              <Button
+                className="bg-yellow-950 text-white text-lg p-4 rounded-xl hover:bg-slate-900 active:p-3 active:mx-[9px] active:mt-1 active:text-base"
                 onClick={submitPrefs}
               >
                 Create
-              </Link>
+              </Button>
             </div>
           </div>
-        </div>
+        </>
+      ) : (
+        <>
+          <Alert onClose={closeAlert} />
+          <NotFound />
+        </>
       )}
     </>
   );

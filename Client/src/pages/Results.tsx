@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router";
 import Loading from "../components/Loading";
 import RenderAnswer from "../components/RenderAnswer";
+import NotFound from "./NotFound";
 import { changeLoading } from "../slices/loadingSlice";
 import { resetCategories } from "../slices/categoriesSlice";
 import { resetQuiz } from "../slices/quizSlice";
 import { resetSelected } from "../slices/selectedSlice";
 import { resetResults } from "../slices/resultsSlice";
+import { resetError } from "../slices/errorSlice";
 import { IState, ILoading, IQuiz, IScore } from "../models";
 
 const Results = () => {
@@ -25,12 +27,12 @@ const Results = () => {
       });
       const [{ score }] = getScore;
       setQuizScore(score);
-    };
+    }
   }, [results]);
 
   useEffect(() => {
-    if (quizScore) { dispatch(changeLoading(false)) }
-  }, [quizScore]);
+    dispatch(changeLoading(false));
+  }, []);
 
   const scoreColor = () => {
     let color = "";
@@ -55,23 +57,26 @@ const Results = () => {
 
   const handleReset = () => {
     dispatch(changeLoading(true));
-    dispatch(resetCategories())
-    dispatch(resetQuiz())
-    dispatch(resetSelected())
-    dispatch(resetResults())
-  }
+    dispatch(resetCategories());
+    dispatch(resetQuiz());
+    dispatch(resetSelected());
+    dispatch(resetResults());
+    dispatch(resetError());
+  };
 
   return loading ? (
     <Loading />
-  ) : (
-    <div className="flex flex-col gap-y-16 pt-24 text-yellow-950">
+  ) : results.length > 0 ? (
+    <div className="flex flex-col gap-y-16 pt-24 pb-8 text-yellow-950">
       <div className="flex justify-center text-4xl font-bold">Results</div>
       {quiz.map((item) => (
         <RenderAnswer quiz={item} key={item.question} />
       ))}
       <div className="flex flex-col justify-center gap-y-4">
         <div className="flex justify-center">
-          <div className={`flex justify-center w-128 p-1 rounded-xl ${scoreColor()}`}>
+          <div
+            className={`flex justify-center w-128 p-1 rounded-xl ${scoreColor()}`}
+          >
             {quizScore}
           </div>
         </div>
@@ -86,6 +91,8 @@ const Results = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <NotFound />
   );
 };
 

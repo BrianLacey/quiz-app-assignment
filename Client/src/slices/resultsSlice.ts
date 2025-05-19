@@ -8,7 +8,7 @@ const resultsSlice = createSlice({
   initialState,
   reducers: {
     addResults: (state, action) => [...action.payload],
-    resetResults: (state) => [],
+    resetResults: (state) => initialState,
   },
 });
 
