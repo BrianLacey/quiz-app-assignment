@@ -4,6 +4,7 @@ import loadingReducer from "./slices/loadingSlice";
 import quizReducer from "./slices/quizSlice";
 import selectedReducer from "./slices/selectedSlice";
 import resultsReducer from "./slices/resultsSlice";
+import errorReducer from "./slices/errorSlice";
 
  const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ import resultsReducer from "./slices/resultsSlice";
     loading: loadingReducer,
     quiz: quizReducer,
     selected: selectedReducer,
-    results: resultsReducer
+    results: resultsReducer,
+    error: errorReducer
   },
 });
 

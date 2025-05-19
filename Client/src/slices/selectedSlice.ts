@@ -25,7 +25,7 @@ const selectedSlice = createSlice({
         })
       }
     },
-    resetSelected: (state) => [],
+    resetSelected: (state) => initialState,
   },
 });
 

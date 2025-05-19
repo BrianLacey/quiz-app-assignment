@@ -4,6 +4,7 @@ export interface IState {
   quiz: IQuiz[];
   selected: ISelected[];
   results: (IResults | IScore)[];
+  error: IError
 }
 
 export interface ICategory {
@@ -45,4 +46,9 @@ export interface IResults {
 
 export interface IScore {
   score: string;
+}
+
+export interface IError {
+  isOpen: boolean;
+  message: string;
 }
