@@ -5,8 +5,8 @@ const categoryFromIds = async (category: string) => {
     const [data] = await categoriesService.readById(parseInt(category));
     const { name } = data;
     return name;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    return error;
   }
 };
 

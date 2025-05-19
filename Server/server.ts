@@ -19,7 +19,6 @@ app.all("/*splat", (req: Request, res: Response, next: NextFunction) => {
   let error: IError;
   error = new Error(`Path \"${req.originalUrl}\" does not exist`);
   error.status = 404;
-  console.log(error);
   next(error);
 });
 app.use(errorHandler);
