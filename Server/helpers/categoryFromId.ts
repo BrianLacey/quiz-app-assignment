@@ -6,7 +6,7 @@ const categoryFromIds = async (category: string) => {
     const { name } = data;
     return name;
   } catch (error) {
-    return error;
+    throw error;
   }
 };
 
