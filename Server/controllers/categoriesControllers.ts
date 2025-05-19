@@ -1,14 +1,13 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import categoriesServices from "../services/categoriesService";
 
 const categoriesControllers = {
-  readAll: async (req: Request, res: Response) => {
+  readAll: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const response = await categoriesServices.readAll();
       res.json(response);
-    } catch (e) {
-      console.log(e);
-      res.json(e);
+    } catch (error) {
+      next(error);
     }
   },
 };

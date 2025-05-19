@@ -9,8 +9,8 @@ export const connectDb = async () => {
     const database = await client.db("quiz");
     console.log("Connected to quiz database!");
     _db = database;
-  } catch (e) {
-    console.log("Error connecting to the database: ", e);
+  } catch (error) {
+    console.error("Error connecting to the database: ", error);
   }
 };
 
