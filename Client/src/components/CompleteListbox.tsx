@@ -4,7 +4,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CompleteListbox = ({
   value = "",
@@ -18,7 +18,7 @@ const CompleteListbox = ({
   list: { name: string; id: number }[];
 }) => (
   <Listbox value={value} onChange={onChange}>
-    <ListboxButton className="bg-yellow-950 flex justify-between items-center w-xs text-white p-4 rounded-xl hover:bg-slate-900">
+    <ListboxButton className="bg-yellow-950 flex justify-between items-center w-sm text-white p-4 rounded-xl hover:bg-slate-900">
       {selected}
       <FontAwesomeIcon icon={["fas", "chevron-down"]} />
     </ListboxButton>
@@ -33,7 +33,10 @@ const CompleteListbox = ({
           key={listItem.name}
           value={listItem.id}
         >
-          {listItem.name}
+          {listItem.name
+            .replace(/&#039;/g, "\'")
+            .replace(/&quot;/g, '\"')
+            .replace(/&amp;/g, "\&")}
         </ListboxOption>
       ))}
     </ListboxOptions>

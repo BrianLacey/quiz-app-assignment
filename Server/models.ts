@@ -21,3 +21,8 @@ export interface IWithCorrect {
 export interface IError extends Error {
   status?: number;
 }
+
+export interface ICategoryDoc {
+  id: number;
+  name: string;
+}

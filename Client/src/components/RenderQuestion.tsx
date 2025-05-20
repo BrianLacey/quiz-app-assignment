@@ -9,8 +9,8 @@ const RenderQuestion = ({ quiz }: { quiz: IQuiz }) => {
   const [selected]: ISelected[] = useSelector((state: IState) => state.selected).filter((item) => item.question === question);
 
   const handleSelected = (e) => {
-    const { textContent } = e.target;
-    dispatch(updateSelected({ question, answer: textContent }));
+    const { name } = e.target;
+    dispatch(updateSelected({ question, answer: name }));
   };
 
   return (
@@ -21,12 +21,16 @@ const RenderQuestion = ({ quiz }: { quiz: IQuiz }) => {
           return (
             <Button
               key={answer}
+              name={answer}
               className={`${
                 selected?.answer === answer ? "bg-yellow-950 text-white" : ""
-                } border-yellow-950 border-2 text-lg font-medium p-4.5 rounded-xl hover:border-slate-900 hover:bg-yellow-950 hover:text-white`}
+              } border-yellow-950 border-2 text-lg font-medium p-4.5 rounded-xl hover:border-slate-900 hover:bg-yellow-950 hover:text-white`}
               onClick={handleSelected}
             >
-              {answer}
+              {answer
+                .replace(/&#039;/g, "\'")
+                .replace(/&quot;/g, '\"')
+                .replace(/&amp;/g, "\&")}
             </Button>
           );
         })}

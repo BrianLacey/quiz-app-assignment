@@ -98,7 +98,10 @@ const QuizMaker = () => {
                 <CompleteListbox
                   value={selectedCategory}
                   onChange={handleSelectedCategory}
-                  selected={categories[selectedCategory].name}
+                  selected={categories[selectedCategory].name
+                    .replace(/&#039;/g, "\'")
+                    .replace(/&quot;/g, '\"')
+                    .replace(/&amp;/g, "\&")}
                   list={categories}
                 />
               </div>

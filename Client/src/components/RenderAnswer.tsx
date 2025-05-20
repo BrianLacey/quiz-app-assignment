@@ -11,9 +11,9 @@ const RenderQuestion = ({ quiz }: { quiz: IQuiz }) => {
   return (
     <div className="flex flex-col pl-8 gap-y-8 text-3xl">
       {question
-        .replace(/&#039;/g, "'")
-        .replace(/&quot;/g, '"')
-        .replace(/&amp;/g, "&")}
+        .replace(/&#039;/g, "\'")
+        .replace(/&quot;/g, '\"')
+        .replace(/&amp;/g, "\&")}
       <div className="flex flex-row gap-x-8">
         {allAnswers.map((item) => {
           return (
@@ -30,7 +30,10 @@ const RenderQuestion = ({ quiz }: { quiz: IQuiz }) => {
                 }
                  border-yellow-950 border-2 text-lg font-medium p-4.5 rounded-xl`}
             >
-              {item}
+              {item
+                .replace(/&#039;/g, "\'")
+                .replace(/&quot;/g, '\"')
+                .replace(/&amp;/g, "\&")}
             </Button>
           );
         })}
