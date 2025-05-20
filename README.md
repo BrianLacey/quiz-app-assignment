@@ -1,7 +1,8 @@
 To start app locally:
 
-Download and install mongodb (currently running on version 8.0.9);
-Seed database from https://opentdb.com
+Download and install mongodb (developed on version 8); https://www.mongodb.com/try/download/community
+Download and install NodeJS (developed on version 18): https://nodejs.org/en/download
+Download ans install git (developed on 2.42) https://git-scm.com/downloads
 
 clone repo.
 Open 2 command lines and navigate to project /Client and /Server.
