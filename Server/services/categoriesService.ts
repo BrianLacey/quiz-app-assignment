@@ -1,4 +1,5 @@
 import { db } from "../db";
+import { ICategoryDoc } from "../models";
 
 const categoriesServices = {
   readAll: () => {
@@ -18,6 +19,10 @@ const categoriesServices = {
         { $match: { "trivia_categories.id": id } },
         { $replaceRoot: { newRoot: "$trivia_categories" } },
       ]).toArray();
+  },
+  
+  seedDb: (categoriesDoc: { trivia_categories: ICategoryDoc[] }) => {
+    return db().collection("categories").insertOne(categoriesDoc);
   },
 };
 

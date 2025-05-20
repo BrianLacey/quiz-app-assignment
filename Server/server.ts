@@ -3,6 +3,7 @@ import cors from "cors";
 import { connectDb } from "./db";
 import router from "./routes";
 import errorHandler from "./middleware/errorHandler";
+import seedDb from "./helpers/seedDb";
 import { IError } from "./models";
 const app = express();
 const port = 3001;
@@ -10,7 +11,12 @@ const corsOptions = {
   origin: ["http://localhost:5173"],
 };
 
-connectDb();
+const connectAndSeed = async () => {
+  await connectDb();
+  await seedDb();
+};
+
+connectAndSeed();
 
 app.use(express.json());
 app.use(cors(corsOptions));
